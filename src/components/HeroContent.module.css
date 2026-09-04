@@ -1,0 +1,45 @@
+.wrap {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 2rem;
+  text-align: center;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.eyebrow {
+  color: var(--gold-bright);
+  font-size: 0.78rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.title {
+  color: var(--text);
+  font-family: var(--font-serif);
+  font-size: clamp(2.8rem, 7vw, 6rem);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.02;
+  margin: 0;
+  text-shadow: 0 2px 30px rgba(0, 0, 0, 0.7);
+}
+
+.subtitle {
+  color: var(--text-muted);
+  font-size: clamp(1rem, 2vw, 1.35rem);
+  font-weight: 300;
+  max-width: 36rem;
+  margin: 0;
+}
+
+.cta {
+  pointer-events: auto;
+}

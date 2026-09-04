@@ -1,0 +1,104 @@
+/* ============================================================
+   Vide Grenier — Design System premium
+   Direction artistique : automobile de luxe (Porsche/Rolex).
+   Sombre, dramatique, chrome / cuir / métal brossé.
+   ============================================================ */
+
+:root {
+  /* Palette */
+  --bg: #0a0a0a;
+  --bg-2: #101010;
+  --surface: #161616;
+  --surface-2: #1e1e1e;
+  --text: #f2f2f2;
+  --text-muted: #9a9a9a;
+  --text-dim: #6f6f6f;
+  --gold: #c9a227;
+  --gold-bright: #e8c15a;
+  --gold-dim: #8a7020;
+  --chrome: #d8d8d8;
+  --line: rgba(232, 193, 90, 0.14);
+  --line-strong: rgba(232, 193, 90, 0.3);
+
+  /* Typographie */
+  --font-serif: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+  /* Échelle z-index (guide skill : 10, 20, 30, 50, 9998) */
+  --z-nav: 1000;
+  --z-overlay: 9980;
+  --z-transition: 9998;
+  --z-cursor: 9999;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+/* Masque le curseur natif quand le curseur custom est actif (desktop). */
+@media (pointer: fine) {
+  body {
+    cursor: none;
+  }
+  a,
+  button,
+  [data-cursor='hover'] {
+    cursor: none;
+  }
+}
+
+/* Scrollbar sombre et discrète. */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #3a3a3a, #1a1a1a);
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gold-bright);
+}
+
+::selection {
+  background: rgba(232, 193, 90, 0.3);
+  color: var(--bg);
+}
+
+/* Accessibilité : respecte prefers-reduced-motion. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}

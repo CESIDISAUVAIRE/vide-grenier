@@ -1,0 +1,26 @@
+.hero {
+  position: relative;
+  width: 100%;
+  /* Hauteur étendue : le scroll-frame se déroule sur 300vh de scroll,
+     ce qui laisse le temps de parcourir les 150 frames sans être "déjà en bas". */
+  height: 300vh;
+  background: #0a0a0a;
+}
+
+.canvas {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  object-fit: cover;
+  display: block;
+}
+
+.video {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  object-fit: cover;
+  display: block;
+}

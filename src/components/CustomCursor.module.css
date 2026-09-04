@@ -1,0 +1,39 @@
+.dot,
+.halo {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0;
+  will-change: transform;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #e8c15a;
+  box-shadow: 0 0 8px rgba(232, 193, 90, 0.6);
+}
+
+.halo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(232, 193, 90, 0.5);
+  transition: transform 0.2s ease-out;
+}
+
+.halo.hover {
+  width: 64px;
+  height: 64px;
+  background: rgba(232, 193, 90, 0.12);
+}
+
+@media (pointer: coarse) {
+  .dot,
+  .halo {
+    display: none;
+  }
+}
