@@ -1,0 +1,21 @@
+// Prisma schema — Vide Grenier
+// Le modèle minimal : une table `Annonce`.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Annonce {
+  id          Int      @id @default(autoincrement())
+  titre       String
+  description String
+  prix        Float
+  categorie   String
+  imageUrl    String
+  createdAt   DateTime @default(now())
+}
