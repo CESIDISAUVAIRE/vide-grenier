@@ -3,6 +3,8 @@
 
 # ---------- Stage 1 : deps ----------
 FROM node:20-alpine AS deps
+# OpenSSL est requis par les moteurs Prisma sur Alpine.
+RUN apk add --no-cache openssl
 WORKDIR /app
 COPY package.json package-lock.json* ./
 COPY prisma ./prisma
@@ -10,6 +12,7 @@ RUN npm ci --omit=dev || npm install --omit=dev
 
 # ---------- Stage 2 : build ----------
 FROM node:20-alpine AS build
+RUN apk add --no-cache openssl
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
@@ -18,6 +21,8 @@ RUN npx prisma generate && npm run build
 
 # ---------- Stage 3 : runner ----------
 FROM node:20-alpine AS runner
+# OpenSSL est requis par les moteurs Prisma au runtime.
+RUN apk add --no-cache openssl
 WORKDIR /app
 ENV NODE_ENV=production
 ENV PORT=3000
