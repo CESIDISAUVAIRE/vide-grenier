@@ -8,7 +8,8 @@
 .heroWrap {
   position: relative;
   height: 300vh;
-  overflow: hidden;
+  /* NB : PAS de overflow:hidden ici — il casserait la position:sticky
+     du canvas héros, provoquant un grand carré noir avant la collection. */
 }
 
 .section {
