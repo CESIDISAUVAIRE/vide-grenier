@@ -10,3 +10,5 @@ environments/prod/data
 LICENSE
 scripts
 docs
+*.tsbuildinfo
+next-env.d.ts
