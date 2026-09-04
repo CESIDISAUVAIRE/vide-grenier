@@ -3,8 +3,27 @@ import styles from './page.module.css';
 
 export const dynamic = 'force-dynamic';
 
-export default async function HomePage() {
+// Catégories disponibles pour le filtre (feature/live-demo).
+const CATEGORIES = [
+  'Meubles',
+  'Sports & Loisirs',
+  'Livres',
+  'High-Tech',
+  'Décoration',
+];
+
+export default async function HomePage({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
+  const selected =
+    typeof searchParams.categorie === 'string'
+      ? searchParams.categorie
+      : undefined;
+
   const annonces = await prisma.annonce.findMany({
+    where: selected ? { categorie: selected } : undefined,
     orderBy: { createdAt: 'desc' },
   });
 
@@ -14,8 +33,30 @@ export default async function HomePage() {
         <h1>Vide Grenier</h1>
         <p className={styles.subtitle}>
           {annonces.length} annonce{annonces.length > 1 ? 's' : ''} en vente
+          {selected ? ` — catégorie « ${selected} »` : ''}
         </p>
       </header>
+
+      {/* Filtre par catégorie (feature/live-demo) */}
+      <nav className={styles.filters} aria-label="Filtrer par catégorie">
+        <a
+          href="/"
+          className={`${styles.filter} ${!selected ? styles.filterActive : ''}`}
+        >
+          Toutes
+        </a>
+        {CATEGORIES.map((cat) => (
+          <a
+            key={cat}
+            href={`/?categorie=${encodeURIComponent(cat)}`}
+            className={`${styles.filter} ${
+              selected === cat ? styles.filterActive : ''
+            }`}
+          >
+            {cat}
+          </a>
+        ))}
+      </nav>
 
       <section className={styles.grid}>
         {annonces.map((annonce) => (
