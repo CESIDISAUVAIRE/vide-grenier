@@ -1,0 +1,16 @@
+# Forcer les fins de ligne LF pour les scripts shell (compatibilité Linux/Docker).
+*.sh text eol=lf
+*.bash text eol=lf
+
+# Fichiers texte standard.
+*.md text
+*.yml text
+*.yaml text
+*.json text
+*.ts text
+*.tsx text
+*.css text
+*.prisma text
+*.conf text
+Dockerfile* text
+.gitignore text
