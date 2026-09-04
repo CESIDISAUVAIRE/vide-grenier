@@ -37,8 +37,21 @@ COPY --from=build --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=build --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY --from=build --chown=nextjs:nodejs /app/public ./public
 
+# Prisma : on copie le schéma et le CLI pour pouvoir créer/migrer la base
+# au démarrage (la base de prod n'a pas de port publié vers l'hôte).
+COPY --from=build --chown=nextjs:nodejs /app/prisma ./prisma
+COPY --from=build --chown=nextjs:nodejs /app/node_modules/prisma ./node_modules/prisma
+COPY --from=build --chown=nextjs:nodejs /app/node_modules/@prisma ./node_modules/@prisma
+COPY --from=build --chown=nextjs:nodejs /app/node_modules/.bin/prisma ./node_modules/.bin/prisma
+COPY --from=build --chown=nextjs:nodejs /app/package.json ./package.json
+
+# Script de démarrage : applique le schéma puis lance le serveur.
+COPY --chown=nextjs:nodejs docker-entrypoint.prod.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
 USER nextjs
 
 EXPOSE 3000
 
+ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["node", "server.js"]
