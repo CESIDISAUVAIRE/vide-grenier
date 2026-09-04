@@ -58,9 +58,7 @@ export default function HeroContent({
       ease: 'none',
       scrollTrigger: {
         trigger: wrap.parentElement || wrap,
-        // Le fade démarre après que le premier quart du hero a été scrolled,
-        // pour que le texte soit bien lisible en haut de page avant de fondre.
-        start: 'top 25%',
+        start: 'top top',
         end: 'bottom 80%',
         scrub: true,
       },
@@ -74,6 +72,8 @@ export default function HeroContent({
 
   return (
     <div ref={wrapRef} className={styles.wrap}>
+      {/* Voile sombre : garantit le contraste du texte sur la vidéo */}
+      <div className={styles.scrim} aria-hidden="true" />
       <p className={styles.eyebrow} data-reveal>
         Collection privée — Pièces rares &amp; vintage
       </p>
