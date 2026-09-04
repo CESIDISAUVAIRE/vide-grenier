@@ -8,58 +8,58 @@ async function main() {
 
   const annonces = [
     {
-      titre: 'Canapé 3 places en cuir',
+      titre: 'Montre automatique en acier',
       description:
-        'Canapé en cuir véritable, très bon état général. Quelques traces d’usure sur les accoudoirs.',
-      prix: 120,
-      categorie: 'Meubles',
-      imageUrl:
-        'https://images.unsplash.com/photo-1553874770484-9f0b1c0f0a0e?w=600&q=80',
-    },
-    {
-      titre: 'Vélo de route Triban 520',
-      description:
-        'Vélo de route en aluminium, taille M. Révisé récemment, pneus neufs.',
-      prix: 250,
-      categorie: 'Sports & Loisirs',
-      imageUrl:
-        'https://images.unsplash.com/photo-1553874770484-9f0b1c0f0a0e?w=600&q=80',
-    },
-    {
-      titre: 'Livre « Le Petit Prince »',
-      description:
-        'Édition collector illustrée, état neuf. Idéal pour collectionneur.',
-      prix: 8,
-      categorie: 'Livres',
-      imageUrl:
-        'https://images.unsplash.com/photo-1553874770484-9f0b1c0f0a0e?w=600&q=80',
-    },
-    {
-      titre: 'Table basse en bois massif',
-      description:
-        'Table basse en chêne massif, fabriquée à la main. Dimensions 90x50 cm.',
-      prix: 45,
-      categorie: 'Meubles',
-      imageUrl:
-        'https://images.unsplash.com/photo-1553874770484-9f0b1c0f0a0e?w=600&q=80',
-    },
-    {
-      titre: 'Console de jeux rétro',
-      description:
-        'Console rétro avec 2 manettes et 10 jeux préinstallés. Fonctionne parfaitement.',
-      prix: 60,
+        'Montre mécanique à remontage automatique, boîtier acier brossé, cadran noir soleillé. Étanche 100m.',
+      prix: 1200,
       categorie: 'High-Tech',
       imageUrl:
-        'https://images.unsplash.com/photo-1553874770484-9f0b1c0f0a0e?w=600&q=80',
+        'https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=800&q=80',
     },
     {
-      titre: 'Lampe de chevet design',
+      titre: 'Canapé Chesterfield en cuir',
       description:
-        'Lampe de chevet en laiton et abat-jour en lin. Ampoule LED incluse.',
-      prix: 15,
+        'Canapé Chesterfield en cuir pleine fleur, capitonné, patine naturelle. Pièce d’exception.',
+      prix: 2400,
+      categorie: 'Meubles',
+      imageUrl:
+        'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80',
+    },
+    {
+      titre: 'Table basse en marbre et laiton',
+      description:
+        'Table basse en marbre de Carrare et piètement laiton brossé. Design italien.',
+      prix: 890,
       categorie: 'Décoration',
       imageUrl:
-        'https://images.unsplash.com/photo-1553874770484-9f0b1c0f0a0e?w=600&q=80',
+        'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=800&q=80',
+    },
+    {
+      titre: 'Livre « Le Petit Prince » — édition originale',
+      description:
+        'Édition collector illustrée, reliure cuir, dorure à chaud. État neuf.',
+      prix: 350,
+      categorie: 'Livres',
+      imageUrl:
+        'https://images.unsplash.com/photo-1512820790803-83ca734da794?w=800&q=80',
+    },
+    {
+      titre: 'Lunettes de soleil aviateur',
+      description:
+        'Lunettes aviateur monture dorée, verres polarisés. Étui cuir inclus.',
+      prix: 420,
+      categorie: 'Accessoires',
+      imageUrl:
+        'https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=800&q=80',
+    },
+    {
+      titre: 'Enceinte hi-fi vintage',
+      description:
+        'Enceinte haute-fidélité, façade aluminium brossé, son chaleureux. Restaurée.',
+      prix: 650,
+      categorie: 'High-Tech',
+      imageUrl:
+        'https://images.unsplash.com/photo-1545454675-3531b543be5d?w=800&q=80',
     },
   ];
 

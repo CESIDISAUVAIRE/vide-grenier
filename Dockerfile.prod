@@ -37,12 +37,10 @@ COPY --from=build --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=build --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY --from=build --chown=nextjs:nodejs /app/public ./public
 
-# Prisma : on copie le schéma et le CLI pour pouvoir créer/migrer la base
-# au démarrage (la base de prod n'a pas de port publié vers l'hôte).
+# Prisma : on copie le schéma, les scripts d'init/seed et le client pour
+# initialiser la base au démarrage (la base de prod n'a pas de port publié).
 COPY --from=build --chown=nextjs:nodejs /app/prisma ./prisma
-COPY --from=build --chown=nextjs:nodejs /app/node_modules/prisma ./node_modules/prisma
 COPY --from=build --chown=nextjs:nodejs /app/node_modules/@prisma ./node_modules/@prisma
-COPY --from=build --chown=nextjs:nodejs /app/node_modules/.bin/prisma ./node_modules/.bin/prisma
 COPY --from=build --chown=nextjs:nodejs /app/package.json ./package.json
 
 # Script de démarrage : applique le schéma puis lance le serveur.
