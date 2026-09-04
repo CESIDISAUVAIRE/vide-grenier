@@ -1,0 +1,52 @@
+# Environnement de DÉVELOPPEMENT — 2 conteneurs (web + db)
+# Projet compose : vide-grenier-dev
+name: vide-grenier-dev
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: vide-grenier-dev-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: videgrenier
+      POSTGRES_PASSWORD: videgrenier
+      POSTGRES_DB: videgrenier
+    # Les fichiers de la base sont EXPOSÉS sur l'hôte (bind mount).
+    volumes:
+      - ./environments/dev/data/postgres:/var/lib/postgresql/data
+    # Port hôte 5433 (différent du 5432 par défaut) pour coexister avec la prod.
+    ports:
+      - '5433:5432'
+    networks:
+      - vide-grenier-dev-net
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: vide-grenier-dev-web
+    restart: unless-stopped
+    # Le code source complet est monté (bind mount) : édition possible depuis l'hôte.
+    volumes:
+      - ./:/app
+      - /app/node_modules
+      - /app/.next
+    env_file:
+      - ./environments/dev/.env
+    environment:
+      # Connexion via le NOM DU SERVICE Docker `db`.
+      DATABASE_URL: postgresql://videgrenier:videgrenier@db:5432/videgrenier
+    # Hot-reload Next.js activé.
+    command: npm run dev
+    # Port hôte 3000 (dev).
+    ports:
+      - '3000:3000'
+    depends_on:
+      - db
+    networks:
+      - vide-grenier-dev-net
+
+networks:
+  vide-grenier-dev-net:
+    name: vide-grenier-dev-net
+    driver: bridge
