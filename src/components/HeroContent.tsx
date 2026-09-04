@@ -2,9 +2,12 @@
 
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap/dist/gsap.js';
+import { ScrollTrigger } from 'gsap/dist/ScrollTrigger.js';
 import { scrollTo } from '@/lib/smooth-scroll';
 import MagneticButton from './MagneticButton';
 import styles from './HeroContent.module.css';
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface HeroContentProps {
   title: string;
@@ -16,6 +19,8 @@ interface HeroContentProps {
 /**
  * Contenu superposé au hero scroll-frame : titre dramatique, sous-titre et
  * CTA, avec apparition animée (GSAP).
+ * Le contenu fond et remonte pendant le scroll du hero, de sorte qu'il
+ * disparaisse avant que la section suivante (Collection) n'arrive à l'écran.
  */
 export default function HeroContent({
   title,
@@ -42,6 +47,24 @@ export default function HeroContent({
         delay: 0.4,
       },
     );
+
+    // Fade-out + montée du conteneur entier pendant le scroll du hero (scrub).
+    // On anime le .wrap (pas les éléments) pour ne pas entrer en conflit avec
+    // l'apparition en stagger. Le texte disparaît donc avant que la section
+    // Collection n'arrive à l'écran, au lieu de rester collé dessus.
+    gsap.to(wrap, {
+      opacity: 0,
+      y: -140,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: wrap.parentElement || wrap,
+        // Le fade démarre après que le premier quart du hero a été scrolled,
+        // pour que le texte soit bien lisible en haut de page avant de fondre.
+        start: 'top 25%',
+        end: 'bottom 80%',
+        scrub: true,
+      },
+    });
   }, []);
 
   const go = () => {
