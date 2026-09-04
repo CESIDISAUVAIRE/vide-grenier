@@ -1,0 +1,57 @@
+# Dockerfile de PRODUCTION — build multi-stage
+# Le code source est INTÉGRÉ dans l'image (pas de bind mount en prod).
+
+# ---------- Stage 1 : deps ----------
+FROM node:20-alpine AS deps
+# OpenSSL est requis par les moteurs Prisma sur Alpine.
+RUN apk add --no-cache openssl
+WORKDIR /app
+COPY package.json package-lock.json* ./
+COPY prisma ./prisma
+RUN npm ci --omit=dev || npm install --omit=dev
+
+# ---------- Stage 2 : build ----------
+FROM node:20-alpine AS build
+RUN apk add --no-cache openssl
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+# Génère le client Prisma puis compile l'app en mode standalone.
+RUN npx prisma generate && npm run build
+
+# ---------- Stage 3 : runner ----------
+FROM node:20-alpine AS runner
+# OpenSSL est requis par les moteurs Prisma au runtime.
+RUN apk add --no-cache openssl
+WORKDIR /app
+ENV NODE_ENV=production
+ENV PORT=3000
+ENV HOSTNAME=0.0.0.0
+
+# Utilisateur non-root.
+RUN addgroup --system --gid 1001 nodejs \
+  && adduser --system --uid 1001 nextjs
+
+# Copie l'output standalone produit par `next build` (output: 'standalone').
+COPY --from=build --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=build --chown=nextjs:nodejs /app/.next/static ./.next/static
+COPY --from=build --chown=nextjs:nodejs /app/public ./public
+
+# Prisma : on copie le schéma et le CLI pour pouvoir créer/migrer la base
+# au démarrage (la base de prod n'a pas de port publié vers l'hôte).
+COPY --from=build --chown=nextjs:nodejs /app/prisma ./prisma
+COPY --from=build --chown=nextjs:nodejs /app/node_modules/prisma ./node_modules/prisma
+COPY --from=build --chown=nextjs:nodejs /app/node_modules/@prisma ./node_modules/@prisma
+COPY --from=build --chown=nextjs:nodejs /app/node_modules/.bin/prisma ./node_modules/.bin/prisma
+COPY --from=build --chown=nextjs:nodejs /app/package.json ./package.json
+
+# Script de démarrage : applique le schéma puis lance le serveur.
+COPY --chown=nextjs:nodejs docker-entrypoint.prod.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
+USER nextjs
+
+EXPOSE 3000
+
+ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["node", "server.js"]

@@ -1,0 +1,21 @@
+# Dockerfile de DÉVELOPPEMENT
+# - Image node, lance `next dev` (hot-reload).
+# - Le code source est monté via bind mount (voir docker-compose.dev.yml),
+#   il n'est PAS copié dans l'image.
+FROM node:20-alpine
+
+# OpenSSL est requis par les moteurs Prisma sur Alpine.
+RUN apk add --no-cache openssl
+
+WORKDIR /app
+
+# Copie uniquement les fichiers de dépendances pour profiter du cache Docker.
+COPY package.json package-lock.json* ./
+COPY prisma ./prisma
+
+RUN npm install
+
+# Port exposé par le serveur de dev Next.js.
+EXPOSE 3000
+
+CMD ["npm", "run", "dev"]

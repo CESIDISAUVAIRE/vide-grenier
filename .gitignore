@@ -22,8 +22,9 @@
 npm-debug.log*
 
 # local env files
-.env
 .env*.local
+# Les .env de Docker (env_file) sont versionnés : ils ne contiennent que la
+# chaîne de connexion interne Docker, pas de secret réel.
 
 # vercel
 .vercel

@@ -1,0 +1,12 @@
+# Exclure du contexte de build Docker
+node_modules
+.next
+.git
+.gitignore
+.gitattributes
+environments/dev/data
+environments/prod/data
+*.md
+LICENSE
+scripts
+docs

@@ -86,16 +86,15 @@ mélangent jamais.
 
 ## Initialiser la base (premier lancement)
 
-Les conteneurs PostgreSQL se créent automatiquement au premier démarrage. Pour
-créer le schéma et insérer les annonces d'exemple, exécuter dans le conteneur
-web :
+Les conteneurs PostgreSQL se créent automatiquement au premier démarrage.
+
+- **Prod** : l'entrypoint du conteneur `web` applique automatiquement le schéma
+  (`prisma db push`) et insère les données d'exemple si la table est vide. Rien
+  à faire.
+- **Dev** : le schéma et le seed se lancent manuellement dans le conteneur web :
 
 ```bash
-# Dev
 docker exec -it vide-grenier-dev-web sh -c "npx prisma db push && npm run db:seed"
-
-# Prod
-docker exec -it vide-grenier-prod-web sh -c "npx prisma db push && npm run db:seed"
 ```
 
 ## GitFlow
@@ -113,11 +112,13 @@ docker exec -it vide-grenier-prod-web sh -c "npx prisma db push && npm run db:se
 ├── docker-compose.prod.yml     # Environnement de prod (3 conteneurs)
 ├── Dockerfile.dev              # Image de dev (next dev, hot-reload)
 ├── Dockerfile.prod             # Image de prod (multi-stage, standalone)
+├── docker-entrypoint.prod.sh   # Entrypoint prod (db push + seed + serveur)
 ├── nginx/
 │   └── nginx.conf              # Reverse proxy de prod
 ├── prisma/
 │   ├── schema.prisma           # Modèle Annonce
-│   └── seed.ts                 # 6 annonces d'exemple
+│   ├── seed.ts                 # 6 annonces d'exemple (dev, via tsx)
+│   └── seed-node.js            # Seed prod (Node.js pur, exécuté par l'entrypoint)
 ├── scripts/
 │   ├── start-dev.sh
 │   ├── stop-dev.sh
