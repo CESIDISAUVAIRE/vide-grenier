@@ -57,18 +57,19 @@ export default async function HomePage() {
       <CustomCursor />
       <Navbar links={NAV_LINKS} />
 
-      {/* Hero scroll-frame */}
+      {/* Hero scroll-frame avec titre superposé */}
       <div className={styles.heroWrap}>
         <FrameSequenceHero
           frameBase="/video-frames/hero"
           fallbackVideo="/video/hero.mp4"
-        />
-        <HeroContent
-          title="L’art de la rareté"
-          subtitle="Une collection privée de pièces vintage et d’objets rares, sélectionnés avec exigence."
-          ctaLabel="Découvrir la collection"
-          ctaTarget="#collection"
-        />
+        >
+          <HeroContent
+            title="L’art de la rareté"
+            subtitle="Une collection privée de pièces vintage et d’objets rares, sélectionnés avec exigence."
+            ctaLabel="Découvrir la collection"
+            ctaTarget="#collection"
+          />
+        </FrameSequenceHero>
       </div>
 
       {/* Catégories curées — la vitrine */}

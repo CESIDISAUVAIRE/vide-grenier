@@ -50,14 +50,15 @@ export default function HeroContent({
 
     // Fade-out + montée du conteneur entier pendant le scroll du hero (scrub).
     // On anime le .wrap (pas les éléments) pour ne pas entrer en conflit avec
-    // l'apparition en stagger. Le texte disparaît donc avant que la section
-    // Collection n'arrive à l'écran, au lieu de rester collé dessus.
+    // l'apparition en stagger. Le trigger est la <section> hero (300vh), donc
+    // le texte disparaît avant que la section Collection n'arrive à l'écran.
+    const trigger = wrap.closest('section') || wrap.parentElement || wrap;
     gsap.to(wrap, {
       opacity: 0,
       y: -140,
       ease: 'none',
       scrollTrigger: {
-        trigger: wrap.parentElement || wrap,
+        trigger,
         start: 'top top',
         end: 'bottom 80%',
         scrub: true,

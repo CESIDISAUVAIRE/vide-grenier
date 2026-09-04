@@ -22,17 +22,21 @@ interface FrameSequenceHeroProps {
   fallbackVideo: string;
   /** Utiliser la variante mobile (portrait) des frames. */
   mobile?: boolean;
+  /** Contenu overlay (titre/CTA) superposé au canvas scroll-frame. */
+  children?: React.ReactNode;
 }
 
 /**
  * Hero en scroll-frame : le scroll contrôle l'index de frame affiché sur un
  * <canvas>. Préchargement progressif pour ne pas bloquer le thread principal.
  * Fallback vidéo classique sur mobile ou prefers-reduced-motion.
+ * Le contenu overlay (children) est affiché par-dessus le canvas sticky.
  */
 export default function FrameSequenceHero({
   frameBase,
   fallbackVideo,
   mobile = false,
+  children,
 }: FrameSequenceHeroProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
@@ -159,23 +163,27 @@ export default function FrameSequenceHero({
 
   return (
     <section ref={sectionRef} className={styles.hero} aria-label="Vidéo d'introduction">
-      <canvas
-        ref={canvasRef}
-        className={styles.canvas}
-        width={mobile ? 720 : 1280}
-        height={mobile ? 1280 : 720}
-      />
-      {useVideo && (
-        <video
-          className={styles.video}
-          src={fallbackVideo}
-          autoPlay
-          muted
-          loop
-          playsInline
-          aria-hidden="true"
+      <div className={styles.viewport}>
+        <canvas
+          ref={canvasRef}
+          className={styles.canvas}
+          width={mobile ? 720 : 1280}
+          height={mobile ? 1280 : 720}
         />
-      )}
+        {useVideo && (
+          <video
+            className={styles.video}
+            src={fallbackVideo}
+            autoPlay
+            muted
+            loop
+            playsInline
+            aria-hidden="true"
+          />
+        )}
+        {/* Contenu overlay superposé au canvas sticky */}
+        {children && <div className={styles.overlay}>{children}</div>}
+      </div>
     </section>
   );
 }
